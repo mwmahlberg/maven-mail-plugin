@@ -226,7 +226,12 @@ public class MailMojo extends AbstractMojo {
         props.put("mail.smtp.host", smtphost);
         props.put("mail.smtp.port", smtpport);
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtps.host", smtphost);
+        props.put("mail.smtps.port", smtpport);
 
+        // TODO: Add a parameter for trusted hosts
+        props.put("mail.smtp.ssl.trust", "*");
+        props.put("mail.debug", "true");
         Session s = Session.getInstance(props, null);
         message = new MimeMessage(s);
 
@@ -250,7 +255,7 @@ public class MailMojo extends AbstractMojo {
 
         getLog().info("ccRecipients:" + ccRecipients);
         if (ccRecipients != null) {
-            addRecipients(ccRecipients, RecipientType.CC);
+            addRecipients(ccRecipients, MailMojo.RecipientType.CC);
         }
 
         if (bccRecipients != null) {
